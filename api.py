@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from functools import wraps
 import jwt
 import model
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
-
+CORS(app)
 users = {
     "admin": "admin_password"
 }
