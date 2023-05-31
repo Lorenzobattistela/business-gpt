@@ -69,7 +69,7 @@ def description():
     if company_name is None or old_description is None:
         return jsonify({'message': 'Company name and old description are required parameters.'}), 400
     
-    prompt = "Agora preciso que você crie uma descrição com, no máximo, 750 caracteres para o Google Meu Negócio dessa empresa. O nome da empresa é {company_name}. Utilize como base as informações da descrição atual:{old_description}. Lembre-se de deixar o SEO otimizado com as palavras chave. Ao responder, envie apenas o texto da descrição e mais nada."
+    prompt = f"Agora preciso que você crie uma descrição com, no máximo, 750 caracteres para o Google Meu Negócio dessa empresa. O nome da empresa é {company_name}. Utilize como base as informações da descrição atual:{old_description}. Lembre-se de deixar o SEO otimizado com as palavras chave. Ao responder, envie apenas o texto da descrição e mais nada."
     response = model.prompt(prompt)
     response = response.replace('\n', '')
     return jsonify({'description': response})
