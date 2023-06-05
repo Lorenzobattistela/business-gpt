@@ -18,9 +18,11 @@ def requires_auth(f):
         token = request.headers.get('Authorization')
         if not token:
             return jsonify({"message": "Authentication required"}), 401
+
+        token = token.split(' ')[1]
         try:
-            jwt.decode(token, app.config['SECRET_KEY'])
-        except jwt.DecodeError:
+            jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+        except jwt.DecodeError as e:
             return jsonify({"message": "Invalid token"}), 401
         return f(*args, **kwargs)
     return decorated
@@ -37,7 +39,7 @@ def login():
 
     if check_auth(username, password):
         token = generate_token(username)
-        return jsonify({'token': token.decode('utf-8')})
+        return jsonify({'token': token})
     else:
         return jsonify({'message': 'Invalid username or password'}), 401
 
